@@ -4,20 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-cloud": "nodemon ./server-cloud/src/index.js",
-    "start-work": "nodemon ./server-work/src/index.js"
+    "start-cloud": "cd ./server-cloud && npm start",
+    "start-work": "cd ./server-work && npm start"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "https-proxy-agent": "^2.2.1",
-    "morgan": "^1.9.1",
-    "nodemon": "^1.18.9",
-    "request": "^2.88.0",
-    "requestretry": "^3.1.0",
-    "socket.io": "^2.2.0",
-    "socket.io-client": "^2.2.0"
-  }
+  "license": "ISC"
 }

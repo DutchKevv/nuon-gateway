@@ -1,11 +1,8 @@
 'use strict';
 
-const app = require('express')();
-const server = require('http').Server(app);
 const io = require('socket.io-client');
-const morgan = require('morgan');
 const config = require('../../config');
-const rq = require('requestretry');
+const rq = require('request');
 const HttpsProxyAgent = require('https-proxy-agent');
 
 const socket = io(config.server.cloud.url, {
@@ -14,7 +11,7 @@ const socket = io(config.server.cloud.url, {
     },
     secure: false,
     agent: new HttpsProxyAgent(config.server.proxy.url),
-    transports: ['polling']
+    // transports: ['polling']
 });
 
 socket.on('connect', () => {

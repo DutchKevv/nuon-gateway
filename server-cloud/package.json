@@ -1,0 +1,21 @@
+{
+  "name": "server-cloud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "https-proxy-agent": "^2.2.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.9",
+    "request": "^2.88.0",
+    "requestretry": "^3.1.0",
+    "socket.io": "^2.2.0"
+  }
+}

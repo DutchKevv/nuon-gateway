@@ -28,7 +28,7 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
         return res.status('404');
     }
 
-    console.log(req.method, req);
+    // console.log(req.method, req);
 
     sockets.work.emit('get:api', {
         method: req.method,
@@ -41,6 +41,8 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
         if (!error) {
             return res.send(result);
         }
+
+        console.error(error);
 
         res.status(error.statusCode || 500).send(error.body);
     });
