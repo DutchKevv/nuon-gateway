@@ -36,14 +36,13 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
         headers: req.headers,
         body: req.body,
         query: req.query
-    }, (err, result) => {
-        
-        if (err) {
-            console.error(err);
+    }, (error, result) => {
+
+        if (!error) {
+            return res.send(result);
         }
 
-        console.log('SAP3');
-        res.send(result);
+        res.status(error.statusCode || 500).send(error.body);
     });
 });
 
