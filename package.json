@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/index.js"
+    "start-cloud": "nodemon ./server-cloud/src/index.js",
+    "start-work": "nodemon ./server-work/src/index.js"
   },
   "author": "",
   "license": "ISC",
