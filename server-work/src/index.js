@@ -1,20 +1,36 @@
+'use strict';
+
 const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io-client');
 const morgan = require('morgan');
 const config = require('../../config');
 const rq = require('requestretry');
+const HttpsProxyAgent = require('https-proxy-agent');
 
-const socket = io(`${config.server.cloud.protocol}${config.server.cloud.host}:${config.server.cloud.port}`);
+const socket = io(config.server.cloud.url, {
+    query: {
+        type: 'work'
+    },
+    secure: false,
+    agent: new HttpsProxyAgent(config.server.proxy.url),
+    transports: ['polling']
+});
 
 socket.on('connect', () => {
-    console.log('connect!')
+    console.log('connect!');
+
+    socket.emit('post:init', { type: 'work' })
+});
+
+socket.on('connect_error', (error) => {
+    console.error('connection error:', error);
 });
 
 socket.on('get:api', (data, cb) => {
-    // const methodArr = [{GET: 'get', POST: 'post'}]
+    console.log('forwading:', data.url);
 
-    rq.get('https://sapdu1.corp.vattenfall.com' + data.url, {
+    rq.get(config.server.du.url + data.url, {
         // method: data.method,
         body: data.body,
         headers: data.headers,
@@ -26,4 +42,7 @@ socket.on('get:api', (data, cb) => {
     });
 });
 
-socket.emit('post:init', { type: 'work' })
+
+// rq.get('http://www.google.nl', {maxAttempts: 1, timeout: 10000}, function() {
+//     console.log(arguments)
+// })

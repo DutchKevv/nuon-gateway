@@ -46,18 +46,20 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
     });
 });
 
+// middleware
+io.use((socket, next) => {
+    socket.data = socket.handshake.query;
+    return next();
+});
+
 io.on('connection', (socket) => {
     console.log('connection!');
 
-    socket.on('post:init', (data) => {
-        socket.data = data;
-
-        if (data.type === 'work') {
-            sockets.work = socket;
-        } else {
-            sockets.clients.push(socket);
-        }
-    });
+    if (socket.data.type === 'work') {
+        sockets.work = socket;
+    } else {
+        sockets.clients.push(socket);
+    }
 
     socket.on('disconnect', () => {
         console.log('diconnect');
