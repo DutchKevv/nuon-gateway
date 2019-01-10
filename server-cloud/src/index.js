@@ -44,7 +44,7 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
 
         console.error(error);
 
-        res.status(error.statusCode || 500).send(error.body);
+        res.status(error.status || 502).send(error.body);
     });
 });
 
