@@ -36,11 +36,9 @@ app.all('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
         query: req.query
     }, (result) => {
         if (!result.status === 200 || !result.status === 201)
-            return res.send(result.body);
+            return res.status(result.status).send(result.body);
 
-        console.error(error);
-
-        res.status(error.status || 502).send(error.body);
+        res.status(result.status || 502).send(result.body);
     });
 });
 
