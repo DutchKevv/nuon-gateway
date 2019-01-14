@@ -39,7 +39,8 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
     }, (error, result) => {
 
         if (!error) {
-            return res.send(result);
+            res.set('x-csrf-token', res.headers['x-csrf-token']);
+            return res.send(result.body);
         }
 
         console.error(error);
