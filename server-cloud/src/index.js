@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
+app.all('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
     console.log('SAP!');
 
     if (!sockets.work) {
