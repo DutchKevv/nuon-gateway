@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-cloud": "cd ./server-cloud && npm start"
+    "start": "cd ./server-cloud && npm start",
+    "prod": "cd ./server-cloud && npm run prod"
   },
   "author": "",
   "license": "ISC"
