@@ -4,7 +4,7 @@ const io = require('socket.io')(server);
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const PORT = 5000;
+const PORT = 5111;
 
 const sockets = {
     work: null,
@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.all('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
+app.all('/sap/bc/ui5_ui5/sap/z_crm_soul/*', function (req, res) {
     console.log('SAP!');
 
     if (!sockets.work) {
