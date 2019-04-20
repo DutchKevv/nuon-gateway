@@ -1,7 +1,7 @@
 const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const PORT = 5111;
@@ -15,13 +15,14 @@ server.listen(PORT);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
 app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
-    console.log('SAP!');
+    console.log('SAP!', req.headers.Cookie);
 
     if (!sockets.work) {
         console.warn('work socket not found');
@@ -33,7 +34,8 @@ app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
         url: req.url,
         headers: req.headers,
         body: req.body,
-        query: req.query
+        query: req.query,
+        cookies: req.cookies
     }, (result) => {
         console.log(result.headers['x-csrf-token']);
 

@@ -40,8 +40,8 @@ socket.on('connect_error', (error) => {
 });
 
 socket.on('get:api', (data, cb) => {
-  // console.log('\nheaders', data.headers);
-  console.log('\nforwading:', URL_DU1 + data.url);
+  console.log('\nheaders', data.headers);
+  // console.log('\nforwading:', URL_DU1 + data.url);
   
   const method = data.method.toLowerCase();
 
@@ -53,7 +53,8 @@ socket.on('get:api', (data, cb) => {
     ca: fs.readFileSync(path.join(__dirname, '../certs/ca.cert.pem')),
     maxAttempts: 1,
     strictSSL: false,
-    headers: data.headers
+    headers: data.headers,
+    cookie
   };
 
   delete options.headers['accept-encoding'];
