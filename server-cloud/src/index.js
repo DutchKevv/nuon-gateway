@@ -4,7 +4,7 @@ const io = require('socket.io')(server);
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const PORT = 5111;
+const PORT = 5000;
 
 const sockets = {
     work: null,
