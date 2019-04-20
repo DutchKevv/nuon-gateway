@@ -39,8 +39,7 @@ socket.on('connect_error', (error) => {
 });
 
 socket.on('get:api', (data, cb) => {
-  console.log('headers', data.headers);
-
+  console.log('\nheaders', data.headers);
   console.log('\nforwading:', URL_DU1 + data.url);
   
   const method = data.method.toLowerCase();
@@ -61,22 +60,8 @@ socket.on('get:api', (data, cb) => {
   request(options, function (err, response, body) {
     if (err) {
       console.error(err);
-      return cb(response);
-    }
-
-    if (typeof body === 'string') {
-      fs.writeFileSync(path.join(__dirname, '../log.txt'), (body || '').toString());
-    }
-    else if (typeof body === 'object') {
-      fs.writeFileSync(path.join(__dirname, '../log.txt'), JSON.stringify(body, null, 2));
     }
 
     cb(response);
   });
-
-  // if (method === 'get' || method === 'delete') {
-  //   httpClient[data.method.toLowerCase()](data.url, options).subscribe(cb, cb);
-  // } else {
-  //   httpClient[data.method.toLowerCase()](data.url, data.body, options).subscribe(cb, cb);
-  // }
 });
