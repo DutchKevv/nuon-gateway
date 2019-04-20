@@ -6,8 +6,8 @@ module.exports = {
         cloud: {
             protocol: 'http://',
             host: '136.144.181.63',
-            port: 5000,
-            url: 'http://136.144.181.63:5000'
+            port: 5111,
+            url: 'http://136.144.181.63:5111'
         },
         du: {
             url: 'https://sapdu1.corp.vattenfall.com'

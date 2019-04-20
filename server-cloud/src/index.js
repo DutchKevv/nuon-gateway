@@ -36,7 +36,7 @@ app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
         query: req.query
     }, (result) => {
         if (!result.statusCode === 200 || !result.statusCode === 201)
-            return res.set('x-csrf-token', '1234').status(result.status).send(result.body);
+            return res.set('x-csrf-token', '1234').status(result.statusCode).send(result.body);
 
         res.status(result.statusCode || 502).send(result.body);
     });
