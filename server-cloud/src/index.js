@@ -36,9 +36,9 @@ app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
         query: req.query
     }, (result) => {
         console.log(result.headers['x-csrf-token']);
-        
-        if (result.statusCode === 200 || result.statusCode === 201)
-            return res.set('x-csrf-token', '9KOZdWl24vntzwNneRXr2g==').status(result.statusCode).send(result.body);
+
+        if (result.headers['x-csrf-token'] && result.headers['x-csrf-token'] !== 'Fetch')
+            return res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode).send(result.body);
 
         res.status(result.statusCode || 502).send(result.body);
     });
