@@ -35,10 +35,12 @@ app.all('/sap/bc/ui5_ui5/sap/z_crm_soul/*', function (req, res) {
         body: req.body,
         query: req.query
     }, (result) => {
-        if (!result.status === 200 || !result.status === 201)
+        console.log(result);
+
+        if (!result.statusCode === 200 || !result.statusCode === 201)
             return res.set('x-csrf-token', '1234').status(result.status).send(result.body);
 
-        res.status(result.status || 502).send(result.body);
+        res.status(result.statusCode || 502).send(result.body);
     });
 });
 
