@@ -40,14 +40,14 @@ socket.on('connect_error', (error) => {
 });
 
 socket.on('get:api', (data, cb) => {
-  console.log('\nheaders', data.headers);
+  // console.log('\nheaders', data.headers);
   console.log('\nforwading:', URL_DU1 + data.url);
   
   const method = data.method.toLowerCase();
 
   const options = {
     method,
-    body: method === 'post'|| method === 'put' ? data.body : undefined,
+    body: method === 'post'|| method === 'put' ? JSON.stringify(data.body || {}) : undefined,
     query: data.query,
     url: URL_DU1 + data.url,
     ca: fs.readFileSync(path.join(__dirname, '../certs/ca.cert.pem')),
@@ -59,6 +59,10 @@ socket.on('get:api', (data, cb) => {
   delete options.headers['accept-encoding'];
 
   request(options, function (err, response, body) {
+    if (response) {
+      console.log(response.headers)
+    }
+
     if (err) {
       console.error(err);
     }
