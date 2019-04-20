@@ -22,7 +22,7 @@ app.get('/', function (req, res) {
 });
 
 app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
-    console.log('SAP!', req.cookies);
+    console.log('SAP!', req.signedCookies);
 
     if (!sockets.work) {
         console.warn('work socket not found');
