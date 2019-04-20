@@ -36,14 +36,22 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
         headers: req.headers,
         body: req.body,
         query: req.query
-    }, (error, result) => {
+    }, (result) => {
+        // if (!result.statusCode === 200 || !result.statusCode === 201 || !) {
 
-        if (!error) {
-            return res.send(result);
-        }
+        // }
 
-        res.status(error.statusCode || 500).send(error.body);
+        // if (!error) {
+        //     return res.send(result);
+        // }
+
+        res.status(error.statusCode || 502).send(error.body);
     });
+});
+
+io.use((socket, next) => {
+    socket.data = socket.handshake.query;
+    return next();
 });
 
 io.on('connection', (socket) => {
