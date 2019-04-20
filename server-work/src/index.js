@@ -4,7 +4,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const request = require('request');
+const request = require('requestretry');
 const io = require('socket.io-client');
 const HttpProxyAgent = require('http-proxy-agent');
 
@@ -39,22 +39,26 @@ socket.on('connect_error', (error) => {
 });
 
 socket.on('get:api', (data, cb) => {
-  console.log('\nforwading:', URL_DU1 + data.url, 'with headers: ', data.headers, '\n\n');
+  console.log('headers', data.headers);
 
-  request({
-    method: data.method.toLowerCase(),
-    json: true,
-    // rejectUnauthorized: false,
+  console.log('\nforwading:', URL_DU1 + data.url);
+  
+  const method = data.method.toLowerCase();
+
+  const options = {
+    method,
+    body: method === 'post'|| method === 'put' ? data.body : undefined,
     query: data.query,
     url: URL_DU1 + data.url,
     ca: fs.readFileSync(path.join(__dirname, '../certs/ca.cert.pem')),
-    maxAttempts: 1,   // (default) try 5 times
+    maxAttempts: 1,
     strictSSL: false,
-    // headers: data.headers,
-    // fullResponse: true
-  }, function (err, response, body) {
-    console.log(response.statusCode );
+    headers: data.headers
+  };
 
+  delete options.headers['accept-encoding'];
+
+  request(options, function (err, response, body) {
     if (err) {
       console.error(err);
       return cb(response);
