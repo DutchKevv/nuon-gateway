@@ -40,7 +40,7 @@ socket.on('connect_error', (error) => {
 });
 
 socket.on('get:api', (data, cb) => {
-  console.log('\nheaders', data.headers);
+  console.log('\nheaders', data);
   // console.log('\nforwading:', URL_DU1 + data.url);
   
   const method = data.method.toLowerCase();
@@ -54,7 +54,6 @@ socket.on('get:api', (data, cb) => {
     maxAttempts: 1,
     strictSSL: false,
     headers: data.headers,
-    cookie
   };
 
   delete options.headers['accept-encoding'];

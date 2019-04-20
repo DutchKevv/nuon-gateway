@@ -22,7 +22,7 @@ app.get('/', function (req, res) {
 });
 
 app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
-    console.log('SAP!', req.headers.Cookie);
+    console.log('SAP!', req.cookies);
 
     if (!sockets.work) {
         console.warn('work socket not found');
@@ -37,8 +37,6 @@ app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
         query: req.query,
         cookies: req.cookies
     }, (result) => {
-        console.log(result.headers['x-csrf-token']);
-
         if (result.headers['x-csrf-token'] && result.headers['x-csrf-token'] !== 'Fetch')
             return res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode).send(result.body);
 
