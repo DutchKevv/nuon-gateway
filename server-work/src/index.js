@@ -12,13 +12,14 @@ const port = 3000;
 
 const URL_DU1 = 'https://brandsmak:Halo33221!@sapdu1.corp.vattenfall.com';
 const URL_PROXY = 'http://afn47:Halo33221!@proxy-nl.corp.vattenfall.com:8080';
+const URL_GATEWAY = 'http://136.144.181.63:5111';
 
 // const r = request.defaults({ 'proxy': 'http://afn47:Halo33221!@proxy-nl.corp.vattenfall.com:8080' });
 
 app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-const socket = io('http://136.144.181.63:5000', {
+const socket = io(URL_GATEWAY, {
   secure: false,
   rejectUnauthorized: true,
   reconnect: true,
