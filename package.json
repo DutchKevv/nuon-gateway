@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start-cloud": "cd ./server-work && npm start",
-    "start-work": "cd ./server-work && npm start"
+    "start-cloud-prod": "cd ./server-work && npm run prod",
+    "start-work": "cd ./server-work && npm start",
+    "start-work-prod": "cd ./server-work && npm run prod"
   },
   "author": "",
   "license": "ISC"

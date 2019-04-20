@@ -4,7 +4,7 @@ const io = require('socket.io')(server);
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const PORT = 5000;
+const PORT = 5111;
 
 const sockets = {
     work: null,
@@ -20,15 +20,13 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
+app.all('/sap/bc/ui5_ui5/sap/z_crm_soul/*', function (req, res) {
     console.log('SAP!');
 
     if (!sockets.work) {
         console.warn('work socket not found');
         return res.status('404');
     }
-
-    console.log(req.method, req);
 
     sockets.work.emit('get:api', {
         method: req.method,
@@ -37,18 +35,14 @@ app.get('/sap/opu/odata/sap/Z_CRM_B2B_APP_SRV/*', function (req, res) {
         body: req.body,
         query: req.query
     }, (result) => {
-        // if (!result.statusCode === 200 || !result.statusCode === 201 || !) {
+        if (!result.status === 200 || !result.status === 201)
+            return res.set('x-csrf-token', '1234').status(result.status).send(result.body);
 
-        // }
-
-        // if (!error) {
-        //     return res.send(result);
-        // }
-
-        res.status(error.statusCode || 502).send(error.body);
+        res.status(result.status || 502).send(result.body);
     });
 });
 
+// middleware
 io.use((socket, next) => {
     socket.data = socket.handshake.query;
     return next();
@@ -57,15 +51,11 @@ io.use((socket, next) => {
 io.on('connection', (socket) => {
     console.log('connection!');
 
-    socket.on('post:init', (data) => {
-        socket.data = data;
-
-        if (data.type === 'work') {
-            sockets.work = socket;
-        } else {
-            sockets.clients.push(socket);
-        }
-    });
+    if (socket.data.type === 'work') {
+        sockets.work = socket;
+    } else {
+        sockets.clients.push(socket);
+    }
 
     socket.on('disconnect', () => {
         console.log('diconnect');
