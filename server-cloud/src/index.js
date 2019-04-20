@@ -22,7 +22,7 @@ app.get('/', function (req, res) {
 });
 
 app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
-    console.log('SAP!', req.signedCookies);
+    console.log('SAP');
 
     if (!sockets.work) {
         console.warn('work socket not found');
@@ -37,10 +37,7 @@ app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
         query: req.query,
         cookies: req.cookies
     }, (result) => {
-        if (result.headers['x-csrf-token'] && result.headers['x-csrf-token'] !== 'Fetch')
-            return res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode).send(result.body);
-
-        res.status(result.statusCode || 502).send(result.body);
+        res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode || 504).send(result.body);
     });
 });
 
