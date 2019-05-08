@@ -5,8 +5,8 @@ const request = require('requestretry');
 const io = require('socket.io-client');
 const HttpProxyAgent = require('http-proxy-agent');
 
-const URL_DU1 = 'https://brandsmak:Halo33221!!@sapdu1.corp.vattenfall.com';
-const URL_PROXY = 'http://afn47:Halo33221!@proxy-nl.corp.vattenfall.com:8080';
+const URL_DU1 = 'https://brandsmak:Halo33221!@sapdu1.corp.vattenfall.com';
+const URL_PROXY = 'http://afn47:Halo33221!!@proxy-nl.corp.vattenfall.com:8080';
 const URL_GATEWAY = 'http://136.144.181.63:5111';
 
 // needed to get valid CSRF tokens from SAP (hack)

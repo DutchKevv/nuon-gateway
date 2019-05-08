@@ -1,7 +1,7 @@
 module.exports = {
     server: {
         proxy: {
-            url: 'http://afn47:Halo33221@webproxy-nl.corp.vattenfall.com:8080'
+            url: 'http://afn47:Halo33221!!@webproxy-nl.corp.vattenfall.com:8080'
         },
         cloud: {
             protocol: 'http://',
