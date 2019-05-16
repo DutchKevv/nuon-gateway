@@ -33,10 +33,17 @@ socket.on('connect_error', (error) => {
 
 socket.on('get:api', (data, cb) => {  
   const method = data.method.toLowerCase();
+  let body = data.body;
+
+  try {
+    body = JSON.stringify(data.body || {});
+  } catch (error) {
+    console.error(error);
+  }
 
   const options = {
     method,
-    body: method === 'post'|| method === 'put' ? JSON.stringify(data.body || {}) : undefined,
+    body: body,
     query: data.query,
     url: URL_DU1 + data.url,
     ca: fs.readFileSync(path.join(__dirname, '../certs/ca.cert.pem')),
