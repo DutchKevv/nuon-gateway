@@ -1,4 +1,3 @@
-// process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 const fs = require('fs');
 const path = require('path');
 const request = require('requestretry');
@@ -16,7 +15,7 @@ const socket = io(URL_GATEWAY, {
   secure: false,
   rejectUnauthorized: true,
   reconnect: true,
-  agent:  new HttpProxyAgent(URL_PROXY),
+  agent: new HttpProxyAgent(URL_PROXY),
   query: {
     type: 'work'
   }
@@ -31,7 +30,7 @@ socket.on('connect_error', (error) => {
   console.error('connection error:', error);
 });
 
-socket.on('get:api', (data, cb) => {  
+socket.on('get:api', (data, cb) => {
   const method = data.method.toLowerCase();
   let body = data.body;
 
@@ -43,8 +42,9 @@ socket.on('get:api', (data, cb) => {
 
   const options = {
     method,
-    body: body,
+    body,
     query: data.query,
+    // url: 'http://google.nl',
     url: URL_DU1 + data.url,
     ca: fs.readFileSync(path.join(__dirname, '../certs/ca.cert.pem')),
     maxAttempts: 3,
@@ -57,14 +57,14 @@ socket.on('get:api', (data, cb) => {
 
   delete options.headers['accept-encoding'];
 
-  request(options, function (err, response, body) {
-    // store SAP session cookies
-    if (response.headers['set-cookie']) {
-      cookies = response.headers['set-cookie'];
+  request(options, function (err, response) {
+    if (err) {
+      return cb(err);
     }
 
-    if (err) {
-      console.error(err);
+    // store SAP session cookies
+    if (response.headers['set-cookie'] || response.headers['Set-Cookie']) {
+      cookies = response.headers['set-cookie'] ? response.headers['set-cookie'] : response.headers['Set-Cookie'];
     }
 
     cb(response);
