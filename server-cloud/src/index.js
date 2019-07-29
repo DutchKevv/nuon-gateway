@@ -22,11 +22,11 @@ app.get('/', function (req, res) {
 });
 
 app.all('*', function (req, res) {
-    console.log('NHP');
+    console.log('NHP', req);
 
     if (!sockets.work) {
         console.warn('work socket not found');
-        return res.status('404');
+        return res.status(404);
     }
 
     sockets.work.emit('get:api', {
@@ -37,6 +37,8 @@ app.all('*', function (req, res) {
         query: req.query,
         cookies: req.cookies
     }, (result) => {
+        console.log('api returned from worker');
+
         res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode || 504).send(result.body);
     });
 });
