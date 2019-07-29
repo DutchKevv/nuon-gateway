@@ -22,8 +22,6 @@ app.get('/', function (req, res) {
 });
 
 app.all('*', function (req, res) {
-    console.log('NHP', req);
-
     if (!sockets.work) {
         console.warn('work socket not found');
         return res.status(404);
