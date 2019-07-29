@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.all('/proxy-nl*', function (req, res) {
+app.all('*', function (req, res) {
     console.log('NHP');
 
     if (!sockets.work) {
