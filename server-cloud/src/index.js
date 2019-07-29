@@ -21,6 +21,27 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.all('/proxy-nl*', function (req, res) {
+    console.log('NHP');
+
+    if (!sockets.work) {
+        console.warn('work socket not found');
+        return res.status('404');
+    }
+
+    sockets.work.emit('get:api', {
+        method: req.method,
+        url: req.url,
+        headers: req.headers,
+        body: req.body,
+        query: req.query,
+        cookies: req.cookies
+    }, (result) => {
+        res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode || 504).send(result.body);
+    });
+});
+
+
 app.all('/sap/opu/odata/sap/z_crm_b2b_app_srv/*', function (req, res) {
     console.log('SAP');
 
