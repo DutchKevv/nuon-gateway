@@ -37,7 +37,7 @@ app.all('*', function (req, res) {
         cookies: req.cookies
     }, (result) => {
         console.log('api returned from worker');
-
+        res.header("Content-Type", "text/xml");
         res.set(result.headers).status(result.statusCode || 504).send(result.body);
     });
 });
