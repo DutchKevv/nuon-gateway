@@ -28,8 +28,6 @@ app.all('*', function (req, res) {
         return res.status(404);
     }
 
-    console.log(req);
-
     sockets.work.emit('get:api', {
         method: req.method,
         url: req.url,
