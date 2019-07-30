@@ -37,7 +37,7 @@ app.all('*', function (req, res) {
     }, (result) => {
         console.log('api returned from worker');
 
-        res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode || 504).send(result.body);
+        res.set('x-csrf-token', result.headers['x-csrf-token']).status(result.statusCode || 504).send(result);
     });
 });
 
