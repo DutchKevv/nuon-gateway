@@ -1,4 +1,5 @@
 const app = require('express')();
+const compression = require('compression');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const cookieParser = require('cookie-parser');
@@ -13,6 +14,7 @@ const sockets = {
 
 server.listen(PORT);
 
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.raw({type: () => true}));

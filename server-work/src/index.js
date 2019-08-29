@@ -73,8 +73,10 @@ socket.on('get:api', (data, cb) => {
         Cookie: cookies,
         // 'Accept-Encoding': 'gzip'
       },
-      // gzip: true
+      gzip: true
     };
+
+    
 
     // if (Buffer.isBuffer(body)) {
     //   options.body = body.toString();
@@ -92,6 +94,7 @@ socket.on('get:api', (data, cb) => {
 
     if (Buffer.isBuffer(body) || url.endsWith('.jar')) {
       // options.encoding = null;
+      // options.decoding = false;
     }
 
     delete options.headers['accept-encoding'];
@@ -119,7 +122,7 @@ socket.on('get:api', (data, cb) => {
       cb({
         headers: response.headers,
         statusCode: response.statusCode,
-        body: body
+        body: response.body
       });
       // cb(response)
     });
