@@ -59,6 +59,7 @@ socket.on('get:api', (data, cb) => {
       timeout: 10000,
       method,
       // method: 'PROPFIND',
+      encoding: null,
       body: body,
       // json: true,
       query: data.query,
@@ -71,9 +72,9 @@ socket.on('get:api', (data, cb) => {
       headers: {
         ...data.headers,
         Cookie: cookies,
-        // 'Accept-Encoding': 'gzip'
+        'Accept-Encoding': 'gzip'
       },
-      gzip: true
+      // gzip: true
     };
 
     
@@ -118,7 +119,7 @@ socket.on('get:api', (data, cb) => {
       }
 
       // console.log('asdfasdf',  response);
-      // console.log(body);
+      console.log(response.body.length, response.data);
       cb({
         headers: response.headers,
         statusCode: response.statusCode,
